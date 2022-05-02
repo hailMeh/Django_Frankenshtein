@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% load static %}
+{# Load the tag library #}
+{% load bootstrap5 %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+
+<nav class="bg-white navbar navbar-expand-lg navbar-light pb-lg-4 pt-lg-3 text-uppercase mb-4">
+    <div class="container fluid">
+
+        <a class="mx-lg-auto navbar-brand text-danger" href="#">My music</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown-7"
+                aria-controls="navbarNavDropdown-7" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <li class="collapse navbar-collapse w-100 justify-content-center" id="navbarNavDropdown-7">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3" href="#">Add book</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3" href="#" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Archive
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                            <li><a class="dropdown-item" href="#"></a></li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3" href="#" role="button" id="dropdownMenuLink"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Category
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+                            <li><a class="dropdown-item" href="#"></a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3" href="#">My Contacts</a>
+                </li>
+            </ul>
+
+
+        </div>
+</nav>
+{% block content %}{% endblock %}
+
+
+
+<footer class="bg-light pb-3 pt-3 small text-secondary">
+    <div class="container">
+        <div class="align-items-center row">
+            <div class="col-md pb-2 pt-2">
+                <p class="mb-0">&copy; 2021 - 2022. All Rights Reserved - Mikhail Reztsov</p>
+            </div>
+            <div class="col-md-auto pb-2 pt-2">
+                <a href="https://github.com/hailMeh" class="text-secondary">Github</a> |
+                <a href="#" class="text-secondary">Contacts</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

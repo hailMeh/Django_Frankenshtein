@@ -22,6 +22,10 @@ INSTALLED_APPS = [
     # local
     'music.apps.MusicConfig',
     'accounts.apps.AccountsConfig',
+    'pages.apps.PagesConfig',
+    #  3rd-party apps
+    'bootstrap5',
+
 ]
 
 MIDDLEWARE = [
