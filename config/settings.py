@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     #  3rd-party apps
     'bootstrap5',
+    "crispy_forms",
+    "crispy_bootstrap5",
 
 ]
 
@@ -103,3 +105,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser' # Дефолтные настройки теперь будут настраиваемы
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # ДЛЯ ФОРМ БУТСТРАПА
+CRISPY_TEMPLATE_PACK = "bootstrap5"  # ДЛЯ ФОРМ БУТСТРАПА
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

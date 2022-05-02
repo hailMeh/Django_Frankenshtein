@@ -38,38 +38,52 @@
                     <a class="nav-link px-lg-3 py-lg-3" href="#">Add book</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3" href="#" role="button" id="dropdownMenuLink"
+                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3 text-secondary" href="#" role="button" id="dropdownMenuLink"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Archive
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-                            <li><a class="dropdown-item" href="#"></a></li>
+                        <li><a class="dropdown-item" href="#"></a></li>
 
                     </ul>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3" href="#" role="button" id="dropdownMenuLink"
+                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3 text-secondary" href="#" role="button" id="dropdownMenuLink"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Category
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
 
-                            <li><a class="dropdown-item" href="#"></a></li>
+                        <li><a class="dropdown-item" href="#"></a></li>
 
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link px-lg-3 py-lg-3" href="#">My Contacts</a>
                 </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link px-lg-3 py-lg-3" href="#">Hi {{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                {% endif %}
             </ul>
 
 
-        </div>
+    </div>
 </nav>
 {% block content %}{% endblock %}
-
 
 
 <footer class="bg-light pb-3 pt-3 small text-secondary">
