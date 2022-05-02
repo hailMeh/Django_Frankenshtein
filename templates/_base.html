@@ -38,7 +38,8 @@
                     <a class="nav-link px-lg-3 py-lg-3" href="#">Add book</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3 text-secondary" href="#" role="button" id="dropdownMenuLink"
+                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3 text-secondary" href="#" role="button"
+                       id="dropdownMenuLink"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Archive
                     </a>
@@ -50,7 +51,8 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3 text-secondary" href="#" role="button" id="dropdownMenuLink"
+                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3 text-secondary" href="#" role="button"
+                       id="dropdownMenuLink"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         Category
                     </a>
@@ -99,6 +101,31 @@
         </div>
     </div>
 </footer>
+<div id="app">
+  <ul>
+    <li class="text-success" v-for="task in tasks">[[task]]</li>
+  </ul>
+</div>
+
 
 </body>
+<script src="https://unpkg.com/vue@3.0.0-rc.5/dist/vue.global.js"></script>
+<script>
+const app = Vue.createApp({
+  el: '#app',
+  delimiters: ['[[', ']]'],
+  data() {
+    return {
+
+      tasks: []
+    }
+  },
+  created() {
+    this.tasks = ['do this 🐱‍🐉', 'and that 🤳'];
+  },
+});
+
+app.mount('#app')
+</script>
+
 </html>
