@@ -66,20 +66,27 @@
                     <a class="nav-link px-lg-3 py-lg-3" href="#">My Contacts</a>
                 </li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link px-lg-3 py-lg-3" href="#">Hi {{ user.username }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_logout' %}">Logout</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3" href="#">Hi {{ user.username }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_logout' %}">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_change_password' %}">Change
+                        password</a>
+                </li>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_login' %}">Login</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_login' %}">Login</a>
+                </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_signup' %}">Sign Up</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_signup' %}">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_reset_password' %}">Forget your password?</a>
+                </li>
                 {% endif %}
             </ul>
 
@@ -103,9 +110,9 @@
     </div>
 </footer>
 <div id="app">
-  <ul>
-    <li class="text-success" v-for="task in tasks">[[task]]</li>
-  </ul>
+    <ul>
+        <li class="text-success" v-for="task in tasks">[[task]]</li>
+    </ul>
 </div>
 
 
@@ -113,21 +120,21 @@
 <script src="{% static 'js/base.js/' %}"></script>
 <script src="https://unpkg.com/vue@3.0.0-rc.5/dist/vue.global.js"></script>
 <script>
-const app = Vue.createApp({
-  el: '#app',
-  delimiters: ['[[', ']]'],
-  data() {
-    return {
+    const app = Vue.createApp({
+        el: '#app',
+        delimiters: ['[[', ']]'],
+        data() {
+            return {
 
-      tasks: []
-    }
-  },
-  created() {
-    this.tasks = ['do this 🐱‍🐉', 'and that 🤳'];
-  },
-});
+                tasks: []
+            }
+        },
+        created() {
+            this.tasks = ['do this 🐱‍🐉', 'and that 🤳'];
+        },
+    });
 
-app.mount('#app')
+    app.mount('#app')
 </script>
 
 

@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # local
     'music.apps.MusicConfig',
     'accounts.apps.AccountsConfig',
@@ -123,3 +124,4 @@ ACCOUNT_USERNAME_REQUIRED = True  # нужно ли при регистраци�
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # имя пользователя или его логин используются для авторизации
 ACCOUNT_EMAIL_REQUIRED = True  # Пользователю необходимо указать e-mail при регистрации
 ACCOUNT_UNIQUE_EMAIL = True  # Пользователь только с уникальным емайлом может зарегистрироваться
+DEFAULT_FROM_EMAIL = 'admin@djangomusic.com'
