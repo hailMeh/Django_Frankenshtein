@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     'allauth',
     'allauth.account',
+    'captcha',
 
 ]
 
@@ -136,3 +137,5 @@ ACCOUNT_UNIQUE_EMAIL = True  # Пользователь только с уник
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
+
+CAPTCHA_FONT_SIZE = 32
