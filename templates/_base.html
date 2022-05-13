@@ -112,6 +112,8 @@
 <div id="app">
     <ul>
         <li class="text-success" v-for="task in tasks">[[task]]</li>
+        <li class="text-danger">[[message]]</li>
+        <button v-on:click="reverseMessage" class="btn btn-success">Vue работает чек</button>
     </ul>
 </div>
 
@@ -125,12 +127,17 @@
         delimiters: ['[[', ']]'],
         data() {
             return {
-
+                message: 'Кнопку',
                 tasks: []
             }
         },
+          methods: {
+    reverseMessage: function () {
+      this.message = this.message.split('').reverse().join('')
+    }
+  },
         created() {
-            this.tasks = ['do this 🐱‍🐉', 'and that 🤳'];
+            this.tasks = ['do this 🐱‍🐉 Загрузка массива успешно', 'and that 🤳'];
         },
     });
 

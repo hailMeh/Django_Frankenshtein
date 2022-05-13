@@ -117,11 +117,19 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # автоматически будет отправлять на почту подтверждение при регистрации
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # автоматически будет отправлять на почту подтверждение при регистрации
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = '2525'
+EMAIL_HOST_USER = 'sultanhabibi@mail.ru'
+EMAIL_HOST_PASSWORD = '94Zftb1k2qWT2fN4nhyz'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 # ACCOUNT_SESSION_REMEMBER = True # при выходе пользователя с сайта сохранять ли его сессию?
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True  # нужно ли при регистрации два раза ввести пароль?
 ACCOUNT_USERNAME_REQUIRED = True  # нужно ли при регистрации указывать свой логин?
 ACCOUNT_AUTHENTICATION_METHOD = 'email'  # имя пользователя или его логин используются для авторизации
 ACCOUNT_EMAIL_REQUIRED = True  # Пользователю необходимо указать e-mail при регистрации
 ACCOUNT_UNIQUE_EMAIL = True  # Пользователь только с уникальным емайлом может зарегистрироваться
-DEFAULT_FROM_EMAIL = 'admin@djangomusic.com'
