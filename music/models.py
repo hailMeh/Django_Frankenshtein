@@ -9,6 +9,7 @@ class Music(models.Model):
     title = models.CharField(max_length=200, verbose_name='Title')
     author = models.CharField(max_length=200, verbose_name='Author')
     price = models.DecimalField(max_digits=6, decimal_places=2)  # для цен
+    cover = models.ImageField(upload_to='covers/', blank=True)  # images
 
     def __str__(self):
         return self.title
