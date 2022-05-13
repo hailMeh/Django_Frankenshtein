@@ -1,5 +1,6 @@
 {% extends '_base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
@@ -17,8 +18,17 @@
                     <div class="col-md-8">
                         <h3 class="font-weight-bold h2 text-dark">{{ music.title }}</h3>
                         <h3 class="font-weight-bold h5 mb-3 text-secondary">Category - {{ music.author }} </h3>
-                        <h4 class="font-weight-bold h6 mb-3 small text-secondary">{{ music.price }}</h4>
-                        <p>{{ book.content }}</p>
+                        <h4 class="font-weight-bold h6 mb-3 small text-secondary">{{ music.price }}$</h4>
+                        <h4 class="font-weight-bold h3 mb-2 small text-secondary">Рецензии пользователей</h4>
+
+                        {% for review in music.reviews.all %}
+
+                            <div class="col-12">
+                                <hr/>
+                                <h3 class="font-weight-bold h4 text-dark p-2">{{ review.author }}</h3>
+                                <h3 class="font-bold h6 mb-3">{{ review.review }}</h3>
+                            </div>
+                        {% endfor %}
                         <a href="{% url 'music_list' %}" class="btn btn-outline-secondary btn-sm">Back to all albums</a>
                     </div>
                 </div>
