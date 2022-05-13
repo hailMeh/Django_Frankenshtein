@@ -7,5 +7,6 @@ urlpatterns = [
     #  user-management
     path('accounts/', include('allauth.urls')),  # django-allauth auhtorozation
     #  local apps
-    path('', include('pages.urls'))
+    path('', include('pages.urls')),
+    path('music/', include('music.urls'))
 ]
