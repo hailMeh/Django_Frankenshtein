@@ -24,7 +24,7 @@ class Music(models.Model):
 
 
 class Review(models.Model):
-    album = models.ForeignKey(
+    music = models.ForeignKey(
         Music,
         on_delete=models.CASCADE,
         related_name='reviews',
