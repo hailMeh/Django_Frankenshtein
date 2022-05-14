@@ -2,18 +2,26 @@ from django.views.generic import ListView, DetailView, CreateView
 from .models import Music
 from .forms import AddMusicForm
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 
-class MusicListView(ListView):
+
+class MusicListView(LoginRequiredMixin, ListView):
     model = Music
     template_name = 'music/music_list.html'
     context_object_name = 'music_list'
+    success_url = reverse_lazy(
+        'music_list')
+    raise_exception = True  # Если пользователь неавторизован, то доступ запрещен
 
 
-class MusicDetailView(DetailView):
+class MusicDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Music
     template_name = 'music/music_detail.html'
+    success_url = reverse_lazy(
+        'music_list')
+    raise_exception = True  # Если пользователь неавторизован, то доступ запрещен
+    permission_required = 'music.special_status' # созданный ранее доступ через Meta в моделях
 
 
 class AddMusicView(LoginRequiredMixin, CreateView):

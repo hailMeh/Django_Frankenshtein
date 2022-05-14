@@ -16,9 +16,9 @@
                                 class="img-fluid w-75" alt="..." width="700" height="480"></a> {% endif %}
                     </div>
                     <div class="col-md-8">
-                        <h3 class="font-weight-bold h2 text-dark">{{ music.title }}</h3>
-                        <h3 class="font-weight-bold h5 mb-3 text-secondary">Category - {{ music.author }} </h3>
-                        <h4 class="font-weight-bold h6 mb-3 small text-secondary">{{ music.price }}$</h4>
+                        <h3 class="font-weight-bold h2 text-dark">Album - {{ music.title }}</h3>
+                        <h3 class="font-weight-bold h5 mb-3 text-secondary">By - {{ music.author }} </h3>
+                        <h4 class="font-weight-bold h6 mb-3 small text-secondary">{{ music.price }}$</h4><hr/>
                         <h4 class="font-weight-bold h3 mb-2 small text-secondary">Рецензии пользователей</h4>
 
                         {% for review in music.reviews.all %}

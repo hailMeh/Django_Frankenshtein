@@ -11,6 +11,11 @@ class Music(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)  # для цен
     cover = models.ImageField(upload_to='covers/', blank=True)  # images
 
+    class Meta:
+        permissions = [
+            ('special_status', 'Can check all music'),
+        ]
+
     def __str__(self):
         return self.title
 
