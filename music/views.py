@@ -3,15 +3,13 @@ from .models import Music
 from .forms import AddMusicForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 
 class MusicListView(LoginRequiredMixin, ListView):
     model = Music
     template_name = 'music/music_list.html'
     context_object_name = 'music_list'
-    success_url = reverse_lazy(
-        'music_list')
     raise_exception = True  # Если пользователь неавторизован, то доступ запрещен
 
 
@@ -39,7 +37,6 @@ def authneed(request, exception):  # Страница не найдена
 class SearchResultsListView(ListView):
     model = Music
     template_name = 'music/search_results.html'
-
     def get_queryset(self):  # new
         query = self.request.GET.get('q')
         return Music.objects.filter(Q(title__icontains=query) | Q(author__icontains=query))

@@ -10,7 +10,7 @@ class Music(models.Model):
     author = models.CharField(max_length=200, verbose_name='Author')
     price = models.DecimalField(max_digits=6, decimal_places=2)  # для цен
     cover = models.ImageField(upload_to='covers/', blank=True)  # images
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
+    slug = models.SlugField(max_length=255, unique=True, verbose_name="URL")
 
     class Meta:
         permissions = [
