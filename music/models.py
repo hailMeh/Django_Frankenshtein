@@ -5,11 +5,12 @@ import uuid
 
 
 class Music(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index = True)
-    title = models.CharField(max_length=200, verbose_name='Title')
+    #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index = True)
+    title = models.CharField(max_length=200, verbose_name='Title', db_index = True)
     author = models.CharField(max_length=200, verbose_name='Author')
     price = models.DecimalField(max_digits=6, decimal_places=2)  # для цен
     cover = models.ImageField(upload_to='covers/', blank=True)  # images
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name="URL")
 
     class Meta:
         permissions = [
@@ -20,7 +21,7 @@ class Music(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('music_detail', args=[str(self.id)])
+        return reverse('music_detail', kwargs={'slug': self.slug})
 
 
 class Review(models.Model):
