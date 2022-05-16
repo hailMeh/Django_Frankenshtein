@@ -16,6 +16,11 @@ urlpatterns = [
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # images
 
+if settings.DEBUG:
+    import debug_toolbar # debug-toolbar только в режиме разработки.
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
 
 # Обработчик Хэндлеров, дебюг в false
 handler403 = authneed

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load cache %}
 {# Load the tag library #}
 {% load bootstrap5 %}
 {# Load CSS and JavaScript #}
@@ -17,7 +18,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-
+{% cache 20 sidebar %}
 <nav class="bg-white navbar navbar-expand-lg navbar-light pb-lg-4 pt-lg-3 text-uppercase mb-4">
     <div class="container fluid">
 
@@ -50,6 +51,7 @@
 
                     </ul>
                 </li>
+            {% endcache %}
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link px-lg-3 py-lg-3 text-success" href="#">Hi {{ user.username }}</a>
@@ -74,7 +76,6 @@
                 </li>
                 {% endif %}
             </ul>
-
 
     </div>
 </nav>

@@ -1,5 +1,6 @@
 from pathlib import Path
 from environs import Env
+import os
 
 env = Env()
 env.read_env()
@@ -31,6 +32,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'captcha',
+    'debug_toolbar'
 
 ]
 
@@ -42,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware', # Debug-toolbar 3rd party
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -139,3 +142,15 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
 
 CAPTCHA_FONT_SIZE = 32
+
+import socket
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname()) #debug-toolbar docker
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
+
+CACHES = {   # Добавление папки в корень, в которой будет храниться кэш. Нужно для оптимизации загрузки страниц
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(BASE_DIR, 'women_project_cache'),
+    }
+}

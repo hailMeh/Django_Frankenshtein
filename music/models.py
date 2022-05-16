@@ -5,7 +5,7 @@ import uuid
 
 
 class Music(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index = True)
     title = models.CharField(max_length=200, verbose_name='Title')
     author = models.CharField(max_length=200, verbose_name='Author')
     price = models.DecimalField(max_digits=6, decimal_places=2)  # для цен
