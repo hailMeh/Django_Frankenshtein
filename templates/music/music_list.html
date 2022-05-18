@@ -17,7 +17,7 @@
                     <div class="col-md-7">
                         <a href="#" class="text-dark text-decoration-none"><h3 class="font-weight-bold h4"></h3></a>
                         <h2 class="font-weight-bold h2 mb-3 big text-black">by {{ m.author }}</h2>
-                        <h2 class="font-weight-bold h4 mb-3 big text-black">Album {{ m.title }}</h2>
+                        {% filter upper %}<h2 class="font-weight-bold h4 mb-3 big text-black">Album {{ m.title|linebreaks|truncatewords:1  }}</h2>{% endfilter %}
                         <h2 class="font-weight-bold h6 mb-3 big text-secondary">{{ m.price }}$</h2>
                         <p></p>
                         <a href="{{ m.get_absolute_url }}" class="btn btn-outline-secondary btn-sm">Details</a>
@@ -29,6 +29,30 @@
         </div>
     </section>
 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-1">
+            <nav class="list-pages" aria-label="Page navigation example ">
+                <ul class="pagination pagination-lg">
+                    {% for p in paginator.page_range %}  <!---служебный обьект--->
+                        {% if page_obj.has_other_pages %}  <!--- если есть страницы для пагинации--->
+                            {% if page_obj.number == p %}  <!---проверка для актива--->
+                                <li class="page-item active">
+                                    <p class="page-link">{{ p }}</p>
+                                </li>
+                            {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                <!---слева2,справа2--->
+                                <li class="page-item">
+                                    <a href="?page={{ p }}" class="page-link">{{ p }}</a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
 
 
 {% endblock %}

@@ -9,6 +9,7 @@ from django.db.models import Q
 class MusicListView(LoginRequiredMixin, ListView):
     model = Music
     template_name = 'music/music_list.html'
+    paginate_by = 2
     context_object_name = 'music_list'
     raise_exception = True  # Если пользователь неавторизован, то доступ запрещен
 

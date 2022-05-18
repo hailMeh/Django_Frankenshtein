@@ -7,9 +7,9 @@ env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = env("DJANGO_SECRET_KEY")
+SECRET_KEY = "#$%&N(ASFGAD^*(%326n26835625BEWSRTSER&^@T#%$Bwertb"
 
-DEBUG = env.bool("DJANGO_DEBUG")
+DEBUG = True
 
 ALLOWED_HOSTS = ['community.pythonanywhere.com', 'localhost', '127.0.0.1']
 
@@ -71,8 +71,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+#DATABASES = { DOCKER
+#    "default": env.dj_db_url("DATABASE_URL", default="postgres://postgres@db/postgres")
+#}
 DATABASES = {
-    "default": env.dj_db_url("DATABASE_URL", default="postgres://postgres@db/postgres")
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -98,13 +104,17 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+STATIC_URL = '/static/' # Префикс URL-адреса для статических файлов
+STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]  # Список дополнительных  путей к статическим файлам, используемых для сбора и для режима отладки.
+STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # путь к общей статической папке, используемой реальным веб-сервером
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Ссылка на папку с медиа файлами
+MEDIA_URL = '/media/'  # будет добавлять к URL графических файлов префикс media
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -138,10 +148,9 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'  # имя пользователя ил�
 ACCOUNT_EMAIL_REQUIRED = True  # Пользователю необходимо указать e-mail при регистрации
 ACCOUNT_UNIQUE_EMAIL = True  # Пользователь только с уникальным емайлом может зарегистрироваться
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
 
 CAPTCHA_FONT_SIZE = 32
+# CAPTCHA_LENGTH = 6
 
 import socket
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname()) #debug-toolbar docker
@@ -154,10 +163,3 @@ CACHES = {   # Добавление папки в корень, в которо�
         'LOCATION': os.path.join(BASE_DIR, 'women_project_cache'),
     }
 }
-
-SECURE_SSL_REDIRECT = env.bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
-SECURE_HSTS_SECONDS = env.int("DJANGO_SECURE_HSTS_SECONDS", default=2592000)
-SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool("DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=True)
-SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=True)
-SESSION_COOKIE_SECURE = env.bool("DJANGO_SESSION_COOKIE_SECURE", default=True)
-CSRF_COOKIE_SECURE = env.bool("DJANGO_CSRF_COOKIE_SECURE", default=True)
