@@ -8,7 +8,7 @@ class AddMusicForm(forms.ModelForm):
     captcha = CaptchaField()
     class Meta:
         model = Music
-        fields = ['title', 'author','category','price', 'cover', 'slug']
+        fields = ['title', 'author','category','price', 'cover']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-input'}),
         }

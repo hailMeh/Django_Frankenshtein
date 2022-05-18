@@ -36,6 +36,9 @@ class Music(models.Model):
     def get_absolute_url(self):
         return reverse('music_detail', kwargs={'slug': self.slug})
 
+    def save(self, *args, **kwargs): # для автоматического добавления слага из тайтла и исполнителя, из формы убрать
+        self.slug = slugify(self.title + self.author)
+        super(Music, self).save(*args, **kwargs)
 
 
 class Review(models.Model):
