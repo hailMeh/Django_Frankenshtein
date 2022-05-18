@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from .models import Music, Review, Category
 from django.utils.safestring import mark_safe
 
 
@@ -14,13 +14,13 @@ class MusicAdmin(admin.ModelAdmin):
     save_on_top = True
 
 
-    list_display = ('id', 'title', 'author', 'get_html_photo', 'price', 'slug') # Что отображать
-    list_display_links = ('id', 'title')  # Линкс на поля для перехода
-    fields = ('title', 'slug', 'cover')
-    search_fields = ('title', 'author') # поиск по полям
-    list_editable = ('price',) # что можно редактировать
-    list_filter = ('title', 'author')  # фильтрация по
-    prepopulated_fields = {"slug": ("title",)}  # Автоматические преобразование из field в slug
+    list_display = ('id', 'title', 'author', 'get_html_photo', 'price', 'slug','is_published', 'category', 'time_create','time_update') # Что отображать
+    list_display_links = ('id', 'title', 'category')  # Линкс на поля для перехода
+    fields = ('title', 'author', 'slug', 'cover', 'price', 'is_published', 'category') # при добавлении через админку, какие поля указывать для заполнения
+    search_fields = ('title', 'author', 'category') # поиск по полям
+    list_editable = ('price', ) # что можно редактировать
+    list_filter = ('title', 'author', 'category')  # фильтрация по
+    prepopulated_fields = {"slug": ("title", "author")}  # Автоматические преобразование из field в slug
 
     def get_html_photo(self, object):
         if object.cover:
@@ -32,4 +32,12 @@ class MusicAdmin(admin.ModelAdmin):
     ]
 
 
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name')
+    search_fields = ('name',)
+    prepopulated_fields = {"slug": ("name",)}
+
+
 admin.site.register(Music, MusicAdmin)
+admin.site.register(Category, CategoryAdmin)

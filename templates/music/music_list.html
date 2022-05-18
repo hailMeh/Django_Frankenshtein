@@ -21,7 +21,7 @@
                         <h2 class="font-weight-bold h6 mb-3 big text-secondary">{{ m.price }}$</h2>
                         <p></p>
                         <a href="{{ m.get_absolute_url }}" class="btn btn-outline-secondary btn-sm">Details</a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm">Category</a>
+                        <a href="{% url 'category' m.category.slug %}" class="btn btn-outline-secondary btn-sm">Category</a>
                     </div>
                     {% endfor %}
                 </div>

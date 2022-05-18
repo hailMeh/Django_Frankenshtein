@@ -38,6 +38,26 @@ def authneed(request, exception):  # Страница не найдена
 class SearchResultsListView(ListView):
     model = Music
     template_name = 'music/search_results.html'
+
     def get_queryset(self):  # new
         query = self.request.GET.get('q')
         return Music.objects.filter(Q(title__icontains=query) | Q(author__icontains=query))
+
+
+class CategoryView(ListView):
+    model = Music
+    template_name = 'music/music_category.html'
+    context_object_name = 'music'  # обращение к модели через
+    allow_empty = False  # Если пусто то на 404
+    paginate_by = 2  # пагинация в base.html
+
+    def get_context_data(self, *, object_list=None, **kwargs):  # Шаблонная запись для изменения/отображения, гибко!
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Category - ' + str(context['music'][0].category)
+        context['category'] = Music.objects.filter(category__slug=self.kwargs['slug']).select_related('category')
+        return context
+
+    def get_queryset(self):  # ОРМ можно применять через служебную функцию
+        return Music.objects.filter(category__slug=self.kwargs['slug'], is_published=True).select_related('category')
+
+

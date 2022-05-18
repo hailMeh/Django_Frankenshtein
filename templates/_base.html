@@ -8,6 +8,7 @@
 {% bootstrap_javascript %}
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
+{% load music_tags %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -18,6 +19,7 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+{% get_categories as cats %}
 {% cache 20 sidebar %}
 <nav class="bg-white navbar navbar-expand-lg navbar-light pb-lg-4 pt-lg-3 text-uppercase mb-4">
     <div class="container fluid">
@@ -46,9 +48,9 @@
                         Category
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-                        <li><a class="dropdown-item" href="#"></a></li>
-
+                        {% for c in cats %}
+                            <li><a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
             {% endcache %}

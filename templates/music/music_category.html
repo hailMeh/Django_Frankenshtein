@@ -1,0 +1,40 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
+    {% if music %}
+        {% for c in category|slice:1 %}
+            <p class="py-2 mb-2 text-center h1 text-dark">{{ c.category }} category</p>
+        {% endfor %}
+        {% for m in music %}
+            <section class="bg-light pb-2 pt-4 text-secondary">
+                <div class="container">
+                    <div class="bg-white mb-2 p-3 mt-4">
+                        <div class="row">
+                            <div class="col-md-4"> {% if m.cover %}
+                                <a href="{{ m.get_absolute_url }}" class="d-block mb-3 mb-md-0"><img
+                                        src="{{ m.cover.url }}"
+                                        class="img-fluid w-75" alt="..." width="700" height="480"></a> {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                                <a href="{{ m.get_absolute_url }}" class="text-dark text-decoration-none"><h3
+                                        class="font-weight-bold h4">{{ m.title }}</h3></a>
+                                <h4 class="font-weight-bold h6 mb-3 small text-secondary">{{ b.time_create }}</h4>
+                                <p>{{ m.author|linebreaks|truncatewords:50 }}</p>
+                                <a href="{{ m.get_absolute_url }}" class="btn btn-outline-secondary btn-sm">Details</a>
+                                <a href="{% url 'category' m.category.slug %}" class="btn btn-outline-secondary btn-sm">More {{ m.category }} Albums</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        {% endfor %}
+    {% else %}
+        NO BOOKS HERE
+    {% endif %}
+
+
+{% endblock %}
