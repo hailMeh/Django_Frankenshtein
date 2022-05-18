@@ -16,7 +16,7 @@ class MusicAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'title', 'author', 'get_html_photo', 'price', 'slug','is_published', 'category', 'time_create','time_update') # Что отображать
     list_display_links = ('id', 'title', 'category')  # Линкс на поля для перехода
-    fields = ('title', 'author', 'slug', 'cover', 'price', 'is_published', 'category') # при добавлении через админку, какие поля указывать для заполнения
+    fields = ('title', 'author', 'slug', 'cover', 'price', 'is_published', 'category', 'added_by') # при добавлении через админку, какие поля указывать для заполнения
     search_fields = ('title', 'author', 'category') # поиск по полям
     list_editable = ('price', ) # что можно редактировать
     list_filter = ('title', 'author', 'category')  # фильтрация по

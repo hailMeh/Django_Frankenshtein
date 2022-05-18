@@ -1,10 +1,11 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Music
 from .forms import AddMusicForm
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
+from my_modules import password_generator
 
 
 class MusicListView(LoginRequiredMixin, ListView):
@@ -18,6 +19,7 @@ class MusicListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'All albums'
+        context['password'] = password_generator.make_password()
         return context
 
 
@@ -35,12 +37,18 @@ class MusicDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
         return context
 
 
+
+
 class AddMusicView(LoginRequiredMixin, CreateView):
     form_class = AddMusicForm
     template_name = 'music/add_music.html'
     success_url = reverse_lazy(
         'music_list')
     raise_exception = True  # Если пользователь неавторизован, то доступ запрещен
+
+    def form_valid(self, form):  # ... автоматически добавляет авторизованного юзера в поле authors
+        form.instance.added_by = self.request.user
+        return super().form_valid(form)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -77,6 +85,30 @@ class CategoryView(ListView):
 
     def get_queryset(self):  # ОРМ можно применять через служебную функцию
         return Music.objects.filter(category__slug=self.kwargs['slug'], is_published=True).select_related('category')
+
+
+class MusicUpdateView(LoginRequiredMixin, UserPassesTestMixin,
+                        UpdateView):  # Миксин не дает гостю зайти на url редактирования сообщений
+    model = Music
+    template_name = 'music/music_update.html'
+    fields = ['title', 'author','price']
+    login_url = 'login'  # Редирект на url, если гость неавторизован
+
+    def test_func(self):  # # Не дает изменить сообщение, если оно не своё
+        obj = self.get_object()
+        return obj.added_by == self.request.user
+
+
+class MusicDeleteView(LoginRequiredMixin, UserPassesTestMixin,
+                        DeleteView):  # Миксин не дает гостю зайти на url удаления сообщения
+    model = Music
+    template_name = 'music/music_delete.html'
+    success_url = reverse_lazy('music_list')
+    login_url = 'login'  # Редирект на url, если гость неавторизован
+
+    def test_func(self):  # Не дает удалить сообщение, если оно не своё, работает благодаря миксину UserPassesTestMixin
+        obj = self.get_object()
+        return obj.added_by == self.request.user
 
 
 ''' ФУНКЦИОНАЛЬНАЯ ФОРМА ДЛЯ ДОБАВЛЕНИЯ КНИГИ

@@ -13,6 +13,7 @@ class AddMusicForm(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'form-input'}),
         }
 
+
     def clean_title(self):   #  Пользовательские ограничения в форме
         title = self.cleaned_data['title']
         if len(title) > 200:

@@ -30,6 +30,8 @@
                             </div>
                         {% endfor %}
                         <a href="{% url 'music_list' %}" class="btn btn-outline-secondary btn-sm">Back to all albums</a>
+                        <a href="{% url 'music_update' music.slug %}" class="btn btn-outline-secondary btn-sm">Edit</a>
+                        <a href="{% url 'music_delete' music.slug %}" class="btn btn-outline-secondary btn-sm">Delete</a>
                     </div>
                 </div>
             </div>

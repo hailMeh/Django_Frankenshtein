@@ -2,7 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 import uuid
-
+from django.utils.text import slugify
 
 class Music(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index = True)
@@ -18,6 +18,9 @@ class Music(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True)  # Null чтобы не ругалось
     slug = models.SlugField(max_length=255, unique=True, verbose_name="URL")
+    added_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
+                               verbose_name='Добавил на сайт') # - Передается авторизованный пользователь
+
 
     class Meta:
         permissions = [
@@ -32,6 +35,7 @@ class Music(models.Model):
 
     def get_absolute_url(self):
         return reverse('music_detail', kwargs={'slug': self.slug})
+
 
 
 class Review(models.Model):

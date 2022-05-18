@@ -4,6 +4,8 @@ from django.views import generic
 from .forms import CustomUserCreationForm
 from django.shortcuts import redirect
 
+
+
 class SignUpPageView(generic.CreateView):
     form_class = CustomUserCreationForm  # используется собственная расширенная модель регистрации
     success_url = reverse_lazy('login')  # после успешной регистрации, редирект на url с именем login
