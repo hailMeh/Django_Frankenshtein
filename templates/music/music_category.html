@@ -5,7 +5,7 @@
 
     {% if music %}
         {% for c in category|slice:1 %}
-            <p class="py-2 mb-2 text-center h1 text-dark">{{ c.category }} category</p>
+            <p class="py-2 mb-2 text-center h1 text-dark">{{ c.category }} category <span class="h6 text-secondary">{{ numbers_of_albums }} albums</span></p>
         {% endfor %}
         {% for m in music %}
             <section class="bg-light pb-2 pt-4 text-secondary">
@@ -23,7 +23,9 @@
                                 <h4 class="font-weight-bold h6 mb-3 small text-secondary">{{ b.time_create }}</h4>
                                 <p>{{ m.author|linebreaks|truncatewords:50 }}</p>
                                 <a href="{{ m.get_absolute_url }}" class="btn btn-outline-secondary btn-sm">Details</a>
-                                <a href="{% url 'category' m.category.slug %}" class="btn btn-outline-secondary btn-sm">More {{ m.category }} Albums</a>
+                                <a href="{% url 'category' m.category.slug %}" class="btn btn-outline-secondary btn-sm">More {{ m.category }}
+                                    Albums</a>
+
 
                             </div>
                         </div>

@@ -1,0 +1,54 @@
+Book.objects.all() - все записи
+Book.objects.all()[:5] - срез на нужное количество записей
+Book.objects.order_by('pk') - отобрать по значению в аргументе, если поставить минус, то в обратном порядке
+Book.objects.order_by('-pk') - отобрать по значению в аргументе в обратном порядке
+Book.objects.all().reverse() - отобрать по значению в аргументе в обратном порядке
+Book.objects.filter(pk__lte=2) - дай все обьекты у которых идентификатор больше, либо равен -> Less Then Equal
+Book.objects.filter(pk__gte=2) - дай все обьекты у которых идентификатор меньше, либо равен -> Greater Then Equal
+Book.objects.get(pk=2) - дай определенную запись с индентификатором. filter() всегда возвращает записи в виде списка, get() в виде обьекта.
+-----------------------
+b = Book.objects.get(pk=2)
+b.category.slug - идет связывание таблиц и генерация из таблицы category выдает нужный результат
+-----------------------
+c = Category.objects.get(pk=1) - берется категория с идентификатором
+c.book_set.all() - происходит обратное связывание. Выдает все обьекты по указанной категории
+c.book_set.order_by(pk) - в категории с pk=1 будут найдены все книги в порядке возрастания по pk
+-----------------------
+    ФИЛЬТРЫ ПОЛЕЙ
+Book.objects.filter(title__contains='pyth') - дай все книги у которых поле title содержит в себе обьекты со значением pyth
+Book.objects.filter(title__icontains='DJANGO') - тоже самое что и выше, но не учитывает регистр букв
+Book.objects.filter(pk__in=[1,2]) - дай обьекты с pk 1,2 и т.д
+Book.objects.filter(pk__in=[1,2], is_published=True) - дай обьекты с pk 1,2 и которых is_published - истина
+Book.objects.filter(category__in=[1,2]) - Дай все книги у которых category pk идут под номерами 1 и 2
+-------------------------------------------------------------------------------------------------------------
+    ИСПОЛЬЗОВАНИЕ КЛАССА Q    OR AND NOT
+Book.objects.filter(Q(pk__lte=4) | Q(title__contains="Python")) - верни книги  с пк меньше 4 ИЛИ с тайтлом у которого содержаться символы Python
+Book.objects.filter(Q(pk__lte=4) & Q(title__contains="Python")) - верни книги  с пк меньше 4 ИЛИ с тайтлом у которого содержаться символы Python
+-------------------------------------------------------------------------------------------------------------
+    МЕТОДЫ ВЫБОРА ЗАПИСЕЙ
+Book.objects.all().first() - Из всех книг выбери первую
+Book.objects.order_by('title').first() - дай первую книгу по порядку их отображния по title
+Book.objects.filter(pk__gte=2).last() - дай последнюю книгу по фильтру книг у которых pk равен или больше 2
+Book.objects.order_by('content').earliest('time_update') - дай самую раннюю выборку по content
+Book.objects.order_by('title').latest('time_update') - дай самую позднюю выборку по title
+b.get_previous_by_time_update() - дай предыдущий обьект по полю time_update
+b.get_next_by_time_create() - дай следующий обьект по времени создания
+-------------------------------------------------------------------------------------------------------------
+    МЕТОДЫ EXISTS и COUNT
+c.book_set.exists() - 'с' <- это категория Django и через метод exists() проверяется наличие в категории обьектов. Возвращает True или False
+c.book_set.count() - тоже самое что и выше, но возвращает количество обьектов в категории
+Book.objects.filter(title__icontains='PYTHon').count()
+-------------------------------------------------------------------------------------------------------------
+    ВЫБОРКА ЗАПИСЕЙ ПО ПОЛЯМ СВЯЗАННЫХ МОДЕЛЕЙ
+Book.objects.filter(category__slug='django') - имя первичной модели__название поля первичной модели, а во вторичной модели найди все совпадения по слагу
+Book.objects.filter(year__date__gte=2) - совмещение выборки и фильтров
+Book.objects.filter(year__date=2021)
+Book.objects.filter(year__date__contains=202)
+Book.objects.filter(category__slug__contains='Dj')
+Category.objects.filter(book__title__contains='p') - покажи категории у которых title содержит ....
+Category.objects.filter(book__title__contains='p').distinct() - distinct отдает только уникальные значения
+-------------------------------------------------------------------------------------------------------------
+    АГРЕГИРУЮЩИЕ ФУНКЦИИ ДЛЯ МАТЕМАТИЧЕСКИХ ОПЕРАЦИЙ
+Book.objects.all().count() - верни int количества всех обьектов в модели
+Book.objects.aggregate(Min('category'), Max('category'))
+-------------------------------------------------------------------------------------------------------------
