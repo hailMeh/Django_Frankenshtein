@@ -1,6 +1,8 @@
+import requests
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Music
-from .forms import AddMusicForm
+from .forms import AddMusicForm, ReviewForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
@@ -14,7 +16,7 @@ class MusicListView(LoginRequiredMixin, ListView):
     paginate_by = 2
     context_object_name = 'music_list'
     raise_exception = True  # Если пользователь неавторизован, то доступ запрещен
-    queryset = Music.objects.all().order_by('-time_create') # Отображение на главной в обратном порядке. Select_related для оптимизации загрузки из БД
+    queryset = Music.objects.all().order_by('-time_create').filter(draft=False) # Отображение на главной в обратном порядке. Select_related для оптимизации загрузки из БД
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -126,3 +128,15 @@ def addbook(request):
     }
     return render(request, 'women/add_book.html', context=context)
 '''
+
+
+class AddReview(View):
+    """Отзывы"""
+    def post(self, request, pk):
+        form = ReviewForm(request.POST) # запрос данных
+        music = Music.objects.get(id=pk) # получение айдишника для связи альбома с отзывом
+        if form.is_valid(): # провека правильности заполнения формы
+            form = form.save(commit=False) # остановка сохранения для проведения манипуляций перед сохранением
+            form.music = music # связь альбома с отзывом
+            form.save() # и теперь уже сохранение
+        return redirect(music.get_absolute_url()) # редирект на альбом к которому был добавлен отзыв

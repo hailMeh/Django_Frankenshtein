@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MusicListView, MusicDetailView, AddMusicView, SearchResultsListView, CategoryView, MusicUpdateView, MusicDeleteView
+from .views import MusicListView, MusicDetailView, AddMusicView, SearchResultsListView, CategoryView, MusicUpdateView, MusicDeleteView,AddReview
 
 urlpatterns = [
     path('', MusicListView.as_view(), name='music_list'),
@@ -8,6 +8,6 @@ urlpatterns = [
     path('album/<slug:slug>/', MusicDetailView.as_view(), name='music_detail'),  # Важно чтобы слаг был внизу
     path('category/<slug:slug>/', CategoryView.as_view(), name='category'),
     path('album/<slug:slug>/edit/', MusicUpdateView.as_view(), name='music_update'),
-    path('album/<slug:slug>/delete/', MusicDeleteView.as_view(), name='music_delete')
-
+    path('album/<slug:slug>/delete/', MusicDeleteView.as_view(), name='music_delete'),
+    path('reviews/<int:pk>', AddReview.as_view(), name='add_review')
 ]

@@ -1,22 +1,18 @@
 from django.contrib import admin
-from .models import Music, Review, Category
+from .models import *
 from django.utils.safestring import mark_safe
 
 
 admin.site.site_title = 'my_music'
 admin.site.site_header = 'Administrate this!'
 
-class ReviewInLine(admin.TabularInline):
-    model = Review
-
-
 class MusicAdmin(admin.ModelAdmin):
     save_on_top = True
 
 
-    list_display = ('id', 'title', 'author', 'get_html_photo', 'price', 'slug','is_published', 'category', 'time_create','time_update') # Что отображать
+    list_display = ('id', 'title', 'author', 'get_html_photo','description','year', 'price', 'slug','is_published', 'category', 'time_create','time_update','draft') # Что отображать
     list_display_links = ('id', 'title', 'category')  # Линкс на поля для перехода
-    fields = ('title', 'author', 'slug', 'cover', 'price', 'is_published', 'category', 'added_by') # при добавлении через админку, какие поля указывать для заполнения
+    fields = ('title', 'author', 'slug', 'cover', 'description','year','price', 'is_published', 'category', 'added_by','draft') # при добавлении через админку, какие поля указывать для заполнения
     search_fields = ('title', 'author', 'category') # поиск по полям
     list_editable = ('price', ) # что можно редактировать
     list_filter = ('title', 'author', 'category')  # фильтрация по
@@ -27,9 +23,7 @@ class MusicAdmin(admin.ModelAdmin):
             return mark_safe(f"<img src='{object.cover.url}' width=50>")
         else:
             return 'No img'
-    inlines = [
-        ReviewInLine,
-    ]
+
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -41,3 +35,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(Music, MusicAdmin)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Rating)
+admin.site.register(RatingStar)
+admin.site.register(AlbumShots)
+admin.site.register(Reviews)

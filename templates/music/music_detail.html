@@ -18,25 +18,93 @@
                     <div class="col-md-8">
                         <h3 class="font-weight-bold h2 text-dark">Album - {{ music.title }}</h3>
                         <h3 class="font-weight-bold h5 mb-3 text-secondary">By - {{ music.author }} </h3>
-                        <h4 class="font-weight-bold h6 mb-3 small text-secondary">{{ music.price }}$</h4><hr/>
-                        <h4 class="font-weight-bold h3 mb-2 small text-secondary">Рецензии пользователей</h4>
+                        <h4 class="font-weight-bold h6 mb-3 small text-secondary">{{ music.price }}$</h4>
 
-                        {% for review in music.reviews.all %}
 
-                            <div class="col-12">
-                                <hr/>
-                                <h3 class="font-weight-bold h4 text-dark p-2">{{ review.author }}</h3>
-                                <h3 class="font-bold h6 mb-3">{{ review.review }}</h3>
+                        <div class="justify-content-start row" data-pg-collapsed>
+                            <div class="col-lg-8 col-md-10 pb-3 pt-3">
+                                <div class="bg-white d-flex flex-row h-100">
+                                    {% for image in music.albumshots_set.all %} <a href="#" class="p-2 d-block"><img
+                                            src="{{ image.image.url }}"
+                                            class="img-fluid rounded" alt="{{ image.description }}" width="700"
+                                            height="480"></a>{% endfor %}
+                                </div>
                             </div>
-                        {% endfor %}
+                        </div>
+
+
+                        <hr/>
+
                         <a href="{% url 'music_list' %}" class="btn btn-outline-secondary btn-sm">Back to all albums</a>
                         <a href="{% url 'music_update' music.slug %}" class="btn btn-outline-secondary btn-sm">Edit</a>
-                        <a href="{% url 'music_delete' music.slug %}" class="btn btn-outline-secondary btn-sm">Delete</a>
+                        <a href="{% url 'music_delete' music.slug %}"
+                           class="btn btn-outline-secondary btn-sm">Delete</a>
                     </div>
                 </div>
+
+                <section class="pt-5 text-center">
+                    <div class="container">
+                        <div>
+                            <h2 class="text-dark">Отзывы пользователей</h2>
+                            <h4 class="h6 text-secondaty text-small">Кол-во отзывов - {{ music.reviews_set.count }}</h4>
+                        </div>
+                        <div class="justify-content-center row">
+                            {% for review in music.reviews_set.all %}
+                                <div class="col-lg-4 col-sm-6 pb-3 pt-3">
+                                    <div class="border p-4 pb-5 pl-4 pr-4 pt-5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                             width="3rem" height="3rem" class="mb-4 text-danger">
+                                            <g>
+                                                <path fill="none" d="M0 0h24v24H0z"/>
+                                                <path d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15zm-3.847-8.699a2 2 0 1 0 2.646 2.646 4 4 0 1 1-2.646-2.646z"/>
+                                            </g>
+                                        </svg>
+                                        <h3 class="h5 mb-3 text-dark">{{ review.name }}</h3>
+                                        <p class="mb-0">{{ review.text }}</p>
+                                        <p class="mb-0">{{ review.email }}</p>
+                                    </div>
+                                </div>{% endfor %}
+                        </div>
+                    </div>
+                </section>
             </div>
+            <!--  //contact form grid ends here -->
+        </div>
+        </div>
+        </div>
         </div>
     </section>
 
 
+
+    <section class="bg-light pb-5" data-pg-collapsed>
+        <div class="container pb-5">
+            <div class="bg-white p-4 p-lg-5 shadow">
+                <h2 class="mb-2">Оставьте ваш отзыв</h2>
+                <form action="{% url 'add_review' music.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group "><label>
+                        Ваш комментарий *
+                    </label>
+                        <input type="text" class="form-control rounded-0" name="text" value="">
+                    </div>
+                    <div class="form-group"><label for="contactemail">
+                        Email *
+                    </label>
+                        <input type="email" class="form-control rounded-0" placeholder="Enter email..." name="email">
+                    </div>
+                    <div class="form-group"><label for="contactusername" class="editContent">
+                        Имя *
+                    </label>
+                        <input type="text" class="form-control rounded-0" rows="1"
+                               placeholder="Enter your message..." name="name">
+                    </div>
+                    >
+                    <button type="submit" class="btn btn-block btn-primary rounded-0 text-uppercase mt-2 rounded">
+                        Отправить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
 {% endblock %}

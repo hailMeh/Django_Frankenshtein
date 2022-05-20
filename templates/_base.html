@@ -21,65 +21,66 @@
 <body>
 {% get_categories as cats %}
 {% cache 20 sidebar %}
-<nav class="bg-white navbar navbar-expand-lg navbar-light pb-lg-4 pt-lg-3 text-uppercase mb-4">
+    <nav class="bg-white navbar navbar-expand-lg navbar-light pb-lg-4 pt-lg-3 text-uppercase mb-4">
     <div class="container fluid">
 
-        <a class="mx-lg-auto navbar-brand text-danger" href="#">My music</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown-7"
-                aria-controls="navbarNavDropdown-7" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <li class="collapse navbar-collapse w-100 justify-content-center" id="navbarNavDropdown-7">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3" href="{% url 'home' %}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3" href="{% url 'about' %}">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3" href="{% url 'music_add' %}">Add album</a>
-                </li>
+    <a class="mx-lg-auto navbar-brand text-danger" href="#">My music</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown-7"
+            aria-controls="navbarNavDropdown-7" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <li class="collapse navbar-collapse w-100 justify-content-center" id="navbarNavDropdown-7">
+    <ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3" href="{% url 'home' %}">Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3" href="{% url 'about' %}">About</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3" href="{% url 'music_add' %}">Add album</a>
+    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3 text-secondary" href="#" role="button"
-                       id="dropdownMenuLink"
-                       data-bs-toggle="dropdown" aria-expanded="false">
-                        Category
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        {% for c in cats %}
-                            <li><a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </li>
-            {% endcache %}
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3 text-success" href="#">Hi {{ user.username }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_logout' %}">Logout</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_change_password' %}">Change
-                        password</a>
-                </li>
-                {% else %}
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_login' %}">Log1in</a>
-                </li>
+    <li class="nav-item dropdown">
+        <a class="btn btn-sm dropdown-toggle px-lg-3 py-lg-3 text-secondary" href="#" role="button"
+           id="dropdownMenuLink"
+           data-bs-toggle="dropdown" aria-expanded="false">
+            Category
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            {% for c in cats %}
+                <li><a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </li>
+{% endcache %}
+{% if user.is_authenticated %}
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3 text-success" href="#">Hi {{ user.username }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_logout' %}">Logout</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_change_password' %}">Change
+            password</a>
+    </li>
+{% else %}
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_login' %}">Log1in</a>
+    </li>
 
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_signup' %}">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_reset_password' %}">Forget your password?</a>
-                </li>
-                {% endif %}
-            </ul>
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_signup' %}">Sign Up</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link px-lg-3 py-lg-3 text-danger" href="{% url 'account_reset_password' %}">Forget your
+            password?</a>
+    </li>
+{% endif %}
+</ul>
 
-    </div>
+</div>
 </nav>
 {% block content %}{% endblock %}
 
@@ -107,7 +108,7 @@
 
 
 </body>
-<script src="{% static 'js/base.js/' %}"></script>
+
 <script src="https://unpkg.com/vue@3.0.0-rc.5/dist/vue.global.js"></script>
 <script>
     const app = Vue.createApp({
@@ -119,11 +120,11 @@
                 tasks: []
             }
         },
-          methods: {
-    reverseMessage: function () {
-      this.message = this.message.split('').reverse().join('')
-    }
-  },
+        methods: {
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        },
         created() {
             this.tasks = ['do this 🐱‍🐉 Загрузка массива успешно', 'and that 🤳'];
         },
