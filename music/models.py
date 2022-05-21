@@ -47,7 +47,8 @@ class Music(models.Model):
 class Reviews(models.Model):
     """Отзывы"""
     email = models.EmailField()
-    name = models.CharField("Имя", max_length=100)
+    name = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
+                               verbose_name='Добавил на сайт') # - Передается авторизованный пользователь
     text = models.TextField("Сообщение", max_length=5000)
     parent = models.ForeignKey(
         'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True
@@ -92,6 +93,21 @@ class AlbumShots(models.Model):
     class Meta:
             verbose_name = "Постеры из альбома"
             verbose_name_plural = "Постеры из альбома"
+
+
+class AlbumSong(models.Model):
+    """Постеры из альбома"""
+    title = models.CharField("Заголовок", max_length=100)
+    audio_file = models.FileField(upload_to='records/')
+    album = models.ForeignKey(Music, verbose_name="Альбом", on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+            verbose_name = "Песня из альбома"
+            verbose_name_plural = "Песня из альбома"
+
 
 
 class RatingStar(models.Model):

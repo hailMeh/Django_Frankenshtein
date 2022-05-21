@@ -21,17 +21,16 @@ class MusicListView(LoginRequiredMixin, ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'All albums'
-        context['password'] = password_generator.make_password()
         return context
 
 
-class MusicDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class MusicDetailView(LoginRequiredMixin, DetailView):#PermissionRequiredMixin, DetailView):
     model = Music
     template_name = 'music/music_detail.html'
     success_url = reverse_lazy(
         'music_list')
     raise_exception = True  # Если пользователь неавторизован, то доступ запрещен
-    permission_required = 'music.special_status'  # созданный ранее доступ через Meta в моделях
+    #permission_required = 'music.special_status'  # созданный ранее доступ через Meta в моделях
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -138,5 +137,7 @@ class AddReview(View):
         if form.is_valid(): # провека правильности заполнения формы
             form = form.save(commit=False) # остановка сохранения для проведения манипуляций перед сохранением
             form.music = music # связь альбома с отзывом
+            form.name = request.user
+            form.email = request.user.email
             form.save() # и теперь уже сохранение
         return redirect(music.get_absolute_url()) # редирект на альбом к которому был добавлен отзыв
