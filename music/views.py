@@ -137,6 +137,8 @@ class AddReview(View):
         if form.is_valid(): # провека правильности заполнения формы
             form = form.save(commit=False) # остановка сохранения для проведения манипуляций перед сохранением
             form.music = music # связь альбома с отзывом
+            if request.POST.get("parent", None): # для ответов на комменты по родительскому комментарию
+                form.parent_id = int(request.POST.get("parent"))
             form.name = request.user
             form.email = request.user.email
             form.save() # и теперь уже сохранение

@@ -2,9 +2,9 @@
 {% load static %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-    <section class="bg-light pb-2 pt-4 text-secondary">
+    <section class="bg-dark bg-opacity-25 pb-2 pt-4">
         <div class="container">{% for m in music_list %}
-            <div class="bg-white mb-2 p-3">
+            <div class="mb-2 p-3">
 
                 <div class="row">
 
@@ -15,12 +15,12 @@
                     </div>
                     <div class="col-md-7">
                         <a href="#" class="text-dark text-decoration-none"><h3 class="font-weight-bold h4"></h3></a>
-                        <h2 class="font-weight-bold h2 mb-3 big text-black">by {{ m.author }}</h2>
-                        {% filter upper %}<h2 class="font-weight-bold h4 mb-3 big text-black">Album {{ m.title|linebreaks|truncatewords:1  }}</h2>{% endfilter %}
-                        <h2 class="font-weight-bold h6 mb-3 big text-secondary">{{ m.price }}$</h2>
+                        <h2 class="font-weight-bold h2 mb-3 big text-dark">by {{ m.author }}</h2>
+                        {% filter upper %}<h2 class="font-weight-bold h4 mb-3 big text-dark">Album {{ m.title|linebreaks|truncatewords:5  }}</h2>{% endfilter %}
+                        <h2 class="font-weight-bold h6 mb-3 big text-dark">{{ m.price }}$</h2>
                         <p></p>
-                        <a href="{{ m.get_absolute_url }}" class="btn btn-outline-secondary btn-sm">Details</a>
-                        <a href="{% url 'category' m.category.slug %}" class="btn btn-outline-secondary btn-sm">Category</a>
+                        <a href="{{ m.get_absolute_url }}" class="btn btn-outline-secondary btn-sm text-dark">Details</a>
+                        <a href="{% url 'category' m.category.slug %}" class="btn btn-outline-secondary btn-sm text-dark">Category</a>
                     </div>
                     {% endfor %}
                 </div>

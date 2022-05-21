@@ -43,6 +43,9 @@ class Music(models.Model):
         self.slug = slugify(self.title + self.author)
         super(Music, self).save(*args, **kwargs)
 
+    def get_review(self):
+        return self.reviews_set.filter(parent__isnull=True)
+
 
 class Reviews(models.Model):
     """Отзывы"""
@@ -61,6 +64,7 @@ class Reviews(models.Model):
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
+        ordering = ['-id'] # чтобы новые отзывы были наверху
 
 
 class Category(models.Model):
