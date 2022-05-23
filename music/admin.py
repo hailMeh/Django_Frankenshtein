@@ -1,10 +1,20 @@
 from django.contrib import admin
+from django import forms
 from .models import *
 from django.utils.safestring import mark_safe
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 admin.site.site_title = 'my_music'
 admin.site.site_header = 'Administrate this!'
+
+
+
+class MusicAdminForm(forms.ModelForm):  # ckeditor
+    description = forms.CharField(label='Описание',widget=CKEditorUploadingWidget()) # Из модели Music поле для описания обьекта
+    class Meta:
+        model = Music
+        fields = '__all__'
 
 
 class ReviewInline(admin.TabularInline):
@@ -36,6 +46,7 @@ class MusicAdmin(admin.ModelAdmin):
     list_filter = ('title', 'author', 'category')  # фильтрация по
     prepopulated_fields = {"slug": ("title", "author")}  # Автоматические преобразование из field в slug
     inlines = [AlbumShotsInline, ReviewInline]
+    form = MusicAdminForm # cdeditor
 
 
     def get_html_photo(self, object):

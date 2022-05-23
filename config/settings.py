@@ -26,13 +26,15 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
     #  3rd-party apps
+    'ckeditor',
+    'ckeditor_uploader',
     'bootstrap5',
     "crispy_forms",
     "crispy_bootstrap5",
     'allauth',
     'allauth.account',
     'captcha',
-    'debug_toolbar'
+    'debug_toolbar',
 
 ]
 
@@ -105,8 +107,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/' # Префикс URL-адреса для статических файлов
-STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]  # Список дополнительных  путей к статическим файлам, используемых для сбора и для режима отладки.
-STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # путь к общей статической папке, используемой реальным веб-сервером
+STATICFILES_DIRS = [str(BASE_DIR.joinpath('staticfiles'))]  # Список дополнительных  путей к статическим файлам, используемых для сбора и для режима отладки.
+#STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # путь к общей статической папке, используемой реальным веб-сервером
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
@@ -148,6 +150,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'  # имя пользователя ил�
 ACCOUNT_EMAIL_REQUIRED = True  # Пользователю необходимо указать e-mail при регистрации
 ACCOUNT_UNIQUE_EMAIL = True  # Пользователь только с уникальным емайлом может зарегистрироваться
 
+SECURE_REFERRER_POLICY = "no-referrer-when-downgrade"
 
 CAPTCHA_FONT_SIZE = 32
 # CAPTCHA_LENGTH = 6
@@ -161,5 +164,74 @@ CACHES = {   # Добавление папки в корень, в которо�
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'women_project_cache'),
+    }
+}
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+# ckeditor config
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        # 'skin': 'office2013',
+        'toolbar_Basic': [
+            ['Source', '-', 'Bold', 'Italic']
+        ],
+        'toolbar_YourCustomToolbarConfig': [
+            {'name': 'document', 'items': ['Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates']},
+            {'name': 'clipboard', 'items': ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']},
+            {'name': 'editing', 'items': ['Find', 'Replace', '-', 'SelectAll']},
+            {'name': 'forms',
+             'items': ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton',
+                       'HiddenField']},
+            '/',
+            {'name': 'basicstyles',
+             'items': ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']},
+            {'name': 'paragraph',
+             'items': ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-',
+                       'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl',
+                       'Language']},
+            {'name': 'links', 'items': ['Link', 'Unlink', 'Anchor']},
+            {'name': 'insert',
+             'items': ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe']},
+            '/',
+            {'name': 'styles', 'items': ['Styles', 'Format', 'Font', 'FontSize']},
+            {'name': 'colors', 'items': ['TextColor', 'BGColor']},
+            {'name': 'tools', 'items': ['Maximize', 'ShowBlocks']},
+            {'name': 'about', 'items': ['About']},
+            '/',  # put this to force next toolbar on new line
+            {'name': 'yourcustomtools', 'items': [
+                # put the name of your editor.ui.addButton here
+                'Preview',
+                'Maximize',
+                'Youtube' # plugin
+
+            ]},
+        ],
+        'toolbar': 'YourCustomToolbarConfig',  # put selected toolbar config here
+        # 'toolbarGroups': [{ 'name': 'document', 'groups': [ 'mode', 'document', 'doctools' ] }],
+        # 'height': 291,
+        # 'width': '100%',
+        # 'filebrowserWindowHeight': 725,
+        # 'filebrowserWindowWidth': 940,
+        # 'toolbarCanCollapse': True,
+        # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
+        'tabSpaces': 4,
+        'extraPlugins': ','.join([
+            'uploadimage', # the upload image feature
+            # your extra plugins here
+            'div',
+            'autolink',
+            'autoembed',
+            'embedsemantic',
+            'autogrow',
+            # 'devtools',
+            'widget',
+            'lineutils',
+            'clipboard',
+            'dialog',
+            'dialogui',
+            'elementspath',
+            'youtube' # plugin
+        ]),
     }
 }

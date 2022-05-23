@@ -13,6 +13,7 @@ environs = {extras = ["django"], version = "*"}
 pillow = "*"
 django-simple-captcha = "*"
 django-debug-toolbar = "*"
+django-ckeditor = "*"
 
 [dev-packages]
 
