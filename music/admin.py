@@ -87,10 +87,13 @@ class AlbumShotsAdmin(admin.ModelAdmin):
         else:
             return 'No img'
 
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    """Рейтинг"""
+    list_display = ("star", "music", "ip")
 
 
 
-admin.site.register(Rating)
 admin.site.register(RatingStar)
 
 

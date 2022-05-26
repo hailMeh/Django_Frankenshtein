@@ -1,16 +1,25 @@
 import requests
+from django.http import HttpResponse
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Music
-from .forms import AddMusicForm, ReviewForm
+from .models import *
+from .forms import AddMusicForm, ReviewForm, RatingForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
-from my_modules import password_generator
 
 
-class MusicListView(LoginRequiredMixin, ListView):
+
+class getYearInClass: # используется вместо контекста и для фильтрации
+
+    def get_year(self):
+        return Music.objects.filter(draft=False).values("year") # вернет только поле year из модели music
+
+    def get_category(self):
+        return Category.objects.all()
+
+class MusicListView(LoginRequiredMixin, getYearInClass, ListView):
     model = Music
     template_name = 'music/music_list.html'
     paginate_by = 2
@@ -35,6 +44,7 @@ class MusicDetailView(LoginRequiredMixin, DetailView):#PermissionRequiredMixin, 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = context['music']
+        context["star_form"] = RatingForm() # для рейтинга
         return context
 
 
@@ -143,3 +153,40 @@ class AddReview(View):
             form.email = request.user.email
             form.save() # и теперь уже сохранение
         return redirect(music.get_absolute_url()) # редирект на альбом к которому был добавлен отзыв
+
+
+class FilterMusicView(getYearInClass, ListView):
+    """Фильтр"""
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = Music.objects.all()
+        if "category" in self.request.GET:
+            queryset = queryset.filter(category__in=self.request.GET.getlist("category"))
+        if "year" in self.request.GET:
+            queryset = queryset.filter(year__in=self.request.GET.getlist("year"))
+        return queryset
+
+
+class AddStarRating(View):
+    """Добавление рейтинга фильму"""
+
+    def get_client_ip(self, request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    def post(self, request):
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            Rating.objects.update_or_create(
+                ip=self.get_client_ip(request),
+                music_id=int(request.POST.get("music")),
+                defaults={'star_id': int(request.POST.get("star"))}
+            )
+            return HttpResponse(status=201)
+        else:
+            return HttpResponse(status=400)

@@ -46,7 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware', # Debug-toolbar 3rd party
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # Debug-toolbar 3rd party
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -73,9 +73,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-#DATABASES = { DOCKER
+# DATABASES = { DOCKER
 #    "default": env.dj_db_url("DATABASE_URL", default="postgres://postgres@db/postgres")
-#}
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -106,14 +106,14 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/' # Префикс URL-адреса для статических файлов
-STATICFILES_DIRS = [str(BASE_DIR.joinpath('staticfiles'))]  # Список дополнительных  путей к статическим файлам, используемых для сбора и для режима отладки.
-#STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # путь к общей статической папке, используемой реальным веб-сервером
+STATIC_URL = '/static/'  # Префикс URL-адреса для статических файлов
+STATICFILES_DIRS = [str(BASE_DIR.joinpath(
+    'static/'))]  # Список дополнительных  путей к статическим файлам, используемых для сбора и для режима отладки. Возможен вариант замены static на staticfiles
+# STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles')) # путь к общей статической папке, используемой реальным веб-сервером
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
-
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Ссылка на папку с медиа файлами
 MEDIA_URL = '/media/'  # будет добавлять к URL графических файлов префикс media
@@ -156,11 +156,11 @@ CAPTCHA_FONT_SIZE = 32
 # CAPTCHA_LENGTH = 6
 
 import socket
-hostname, _, ips = socket.gethostbyname_ex(socket.gethostname()) #debug-toolbar docker
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())  # debug-toolbar docker
 INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
-
-CACHES = {   # Добавление папки в корень, в которой будет храниться кэш. Нужно для оптимизации загрузки страниц
+CACHES = {  # Добавление папки в корень, в которой будет храниться кэш. Нужно для оптимизации загрузки страниц
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'women_project_cache'),
@@ -203,7 +203,7 @@ CKEDITOR_CONFIGS = {
                 # put the name of your editor.ui.addButton here
                 'Preview',
                 'Maximize',
-                'Youtube' # plugin
+                'Youtube'  # plugin
 
             ]},
         ],
@@ -217,7 +217,7 @@ CKEDITOR_CONFIGS = {
         # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
         'tabSpaces': 4,
         'extraPlugins': ','.join([
-            'uploadimage', # the upload image feature
+            'uploadimage',  # the upload image feature
             # your extra plugins here
             'div',
             'autolink',
@@ -231,7 +231,7 @@ CKEDITOR_CONFIGS = {
             'dialog',
             'dialogui',
             'elementspath',
-            'youtube' # plugin
+            'youtube'  # plugin
         ]),
     }
 }

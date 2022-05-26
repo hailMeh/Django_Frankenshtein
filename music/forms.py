@@ -33,3 +33,14 @@ class ReviewForm(forms.ModelForm):
 
             "text": forms.Textarea(attrs={"class": "form-control border"})
         }
+
+
+class RatingForm(forms.ModelForm):
+    """Форма добавления рейтинга"""
+    star = forms.ModelChoiceField( # переопределение поля star, в виджетах также могут быть другие чекбоксы и кнопки
+        queryset=RatingStar.objects.all(), widget=forms.RadioSelect(), empty_label=None
+    )
+
+    class Meta:
+        model = Rating
+        fields = ("star",)
