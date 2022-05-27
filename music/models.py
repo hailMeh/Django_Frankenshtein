@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q, CheckConstraint, UniqueConstraint
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 import uuid
@@ -124,12 +125,13 @@ class RatingStar(models.Model):
     class Meta:
         verbose_name = "Звезда рейтинга"
         verbose_name_plural = "Звезды рейтинга"
-        ordering = ["value"]
+        ordering = ["-value"]
 
 
 class Rating(models.Model):
     """Рейтинг"""
-    ip = models.CharField("IP адрес", max_length=15) # ip человека кто добавил.
+    added_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
+                                 verbose_name='Добавил на сайт')
     star = models.ForeignKey('RatingStar', on_delete=models.CASCADE, verbose_name="звезда") # Количество звезд
     music = models.ForeignKey('Music', on_delete=models.CASCADE, verbose_name="альбом", related_name="ratings") # Альбом
 
@@ -139,4 +141,5 @@ class Rating(models.Model):
     class Meta:
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
-
+        # а вот эта команда и не даст повторно голосовать НЕ РАБОТАЕТ
+        unique_together = ('added_by', 'star')

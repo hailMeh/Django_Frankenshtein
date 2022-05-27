@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'captcha',
     'debug_toolbar',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.vk',
 
 ]
 

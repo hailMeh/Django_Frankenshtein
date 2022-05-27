@@ -7,8 +7,7 @@ from .forms import AddMusicForm, ReviewForm, RatingForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Q
-
+from django.db.models import Q, Avg
 
 
 class getYearInClass: # используется вместо контекста и для фильтрации
@@ -45,6 +44,8 @@ class MusicDetailView(LoginRequiredMixin, DetailView):#PermissionRequiredMixin, 
         context = super().get_context_data(**kwargs)
         context['title'] = context['music']
         context["star_form"] = RatingForm() # для рейтинга
+        context["rating_sum"] = Rating.objects.all().aggregate(average_star=Avg('star'))
+        context["num_rating"] = Rating.objects.all().count()
         return context
 
 
@@ -171,21 +172,14 @@ class FilterMusicView(getYearInClass, ListView):
 class AddStarRating(View):
     """Добавление рейтинга фильму"""
 
-    def get_client_ip(self, request):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
-
-    def post(self, request):
-        form = RatingForm(request.POST)
-        if form.is_valid():
-            Rating.objects.update_or_create(
-                ip=self.get_client_ip(request),
-                music_id=int(request.POST.get("music")),
-                defaults={'star_id': int(request.POST.get("star"))}
+    def post(self, request): # При запросе
+        form = RatingForm(request.POST) # Передадим нашу форму с методом POST
+        if form.is_valid(): # Если форма валидна
+            Rating.objects.update_or_create( # Рейтинг обновляется если была оценка и создает новую если не было
+                added_by = self.request.user, # Передадим авторизованного юзера
+                music_id=int(request.POST.get("music")), # Передадим поле альбома к которому рейтинг
+                # поле Music_id передается через скрытое поле hidden
+                defaults={'star_id': int(request.POST.get("star"))} # Передадим поле альбома к которому рейтинг
             )
             return HttpResponse(status=201)
         else:

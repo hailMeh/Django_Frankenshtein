@@ -1,18 +1,38 @@
 {% extends '_base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Login{% endblock %}
+{% load account socialaccount %}
 
 {% block content %}
-    <div class="container my-5">
+    {% get_providers as socialaccount_providers %}
+    {% if socialaccount_providers %}
+        <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-6">
-                <h1 class="text-center py-1">Login</h1>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type="submit" class="btn btn-success">Login</button>
-                </form>
+                <p class="font-weight-bold h4 mb-3 small text-dark">Please sign in with one
+            of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+            for a account and sign in below:</p>
+        <div class="font-weight-bold h4 mb-3 small text-dark">
+            <ul class="font-weight-bold h4 mb-3 small text-dark">
+                {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+            </ul>
+        </div>
+        {% include "socialaccount/snippets/login_extra.html" %}
+    {% else %}
+        <p class="font-weight-bold h6 mb-3 small text-dark">If you have not created an account yet, then please
+            <a href="{{ signup_url }}">sign up</a> first.</p>
+    {% endif %}
+    <form class="login" method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <a class="btn btn-warning rounded"
+           href="{% url 'account_reset_password' %}">"Forgot Password?"</a>
+        <button class="btn btn-success rounded" type="submit">"Sign In"</button>
+    </form>
             </div>
         </div>
-    </div>
+        </div>
+
 {% endblock %}

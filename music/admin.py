@@ -90,7 +90,7 @@ class AlbumShotsAdmin(admin.ModelAdmin):
 @admin.register(Rating)
 class RatingAdmin(admin.ModelAdmin):
     """Рейтинг"""
-    list_display = ("star", "music", "ip")
+    list_display = ("star", "music", "added_by")
 
 
 
