@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'music.apps.MusicConfig',
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
+    'contact.apps.ContactConfig',
+
     #  3rd-party apps
     'ckeditor',
     'ckeditor_uploader',
@@ -123,6 +125,9 @@ MEDIA_URL = '/media/'  # будет добавлять к URL графическ
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'  # Дефолтные настройки теперь будут настраиваемы
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1 # allauth email
+ACCOUNT_USERNAME_MIN_LENGTH = 4 # allauth
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # ДЛЯ ФОРМ БУТСТРАПА
 CRISPY_TEMPLATE_PACK = "bootstrap5"  # ДЛЯ ФОРМ БУТСТРАПА

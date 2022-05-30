@@ -14,6 +14,7 @@ urlpatterns = [
     path('music/', include('music.urls')),
     path('captcha/', include('captcha.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('contact/', include("contact.urls")),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # images
 

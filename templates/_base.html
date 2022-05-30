@@ -9,6 +9,7 @@
 {# Display django.contrib.messages as Bootstrap alerts #}
 {% bootstrap_messages %}
 {% load music_tags %}
+{% load contact_tags %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -50,7 +51,8 @@
         </a>
         <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuLink">
             {% for c in cats %}
-                <li class="text-danger bg-dark"><a class="dropdown-item text-danger" href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+                <li class="text-danger bg-dark"><a class="dropdown-item text-danger"
+                                                   href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
             {% endfor %}
         </ul>
     </li>
@@ -93,10 +95,13 @@
             <div class="col-md pb-2 pt-2">
                 <p class="mb-0">&copy; 2021 - 2022. All Rights Reserved - Mikhail Reztsov</p>
             </div>
-            <div class="col-md-auto pb-2 pt-2">
+  <div class="col-md-auto pb-2 pt-2">
                 <a href="https://github.com/hailMeh" class="text-secondary">Github</a> |
                 <a href="#" class="text-secondary">Contacts</a>
             </div>
+            {% if user.is_authenticated %}
+            {% contact_form %}
+            {% endif %}
         </div>
     </div>
 </footer>
