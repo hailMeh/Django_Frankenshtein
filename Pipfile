@@ -14,6 +14,9 @@ pillow = "*"
 django-simple-captcha = "*"
 django-debug-toolbar = "*"
 django-ckeditor = "*"
+asgiref = "*"
+pytz = "*"
+sqlparse = "*"
 
 [dev-packages]
 

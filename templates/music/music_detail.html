@@ -52,8 +52,8 @@
                                     <label for="rating{{ v }}">{{ k }}</label>
                                 {% endfor %}
                             </span>
-                            <span class="font-weight-bold h6 mb-3 small text-dark">Средняя оценка - {{ rating_sum.average_star|make_list|slice:'4'|join:'' }} |</span>
-                            <span class="font-weight-bold h6 mb-3 small text-dark">Количество оценок - {{ num_rating }}</span>
+                            <span class="font-weight-bold h6 mb-3 small text-dark">Средняя оценка - {{ rating_sum.average_star|make_list|slice:'4'|join:'' }}|</span>
+                            <span class="font-weight-bold h6 mb-3 small text-dark">Количество оценок - {{ music.ratings.count }}</span> <!-- ratings через related name вместо .set-->
                         </form>
 
                         <hr/>

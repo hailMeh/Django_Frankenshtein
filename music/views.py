@@ -44,8 +44,7 @@ class MusicDetailView(LoginRequiredMixin, DetailView):#PermissionRequiredMixin, 
         context = super().get_context_data(**kwargs)
         context['title'] = context['music']
         context["star_form"] = RatingForm() # для рейтинга
-        context["rating_sum"] = Rating.objects.all().aggregate(average_star=Avg('star'))
-        context["num_rating"] = Rating.objects.all().count()
+        context["rating_sum"] = Rating.objects.aggregate(average_star=Avg('star'))
         return context
 
 

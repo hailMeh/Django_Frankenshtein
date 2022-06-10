@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 import uuid
 from django.utils.text import slugify
-
+from django.db.models import Avg
 
 class Music(models.Model):
     #id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, db_index = True)
@@ -46,6 +46,7 @@ class Music(models.Model):
 
     def get_review(self):
         return self.reviews_set.filter(parent__isnull=True)
+
 
 
 class Reviews(models.Model):
@@ -133,7 +134,7 @@ class Rating(models.Model):
     added_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
                                  verbose_name='Добавил на сайт')
     star = models.ForeignKey('RatingStar', on_delete=models.CASCADE, verbose_name="звезда") # Количество звезд
-    music = models.ForeignKey('Music', on_delete=models.CASCADE, verbose_name="альбом", related_name="ratings") # Альбом
+    music = models.ForeignKey(Music, on_delete=models.CASCADE, verbose_name="альбом", related_name="ratings") # Альбом
 
     def __str__(self):
         return f"{self.star} - {self.music}"

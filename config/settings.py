@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'pages.apps.PagesConfig',
     'contact.apps.ContactConfig',
+    'videoclip.apps.VideoclipConfig',
+    'shop.apps.ShopConfig',
 
     #  3rd-party apps
     'ckeditor',
