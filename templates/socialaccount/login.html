@@ -1,0 +1,29 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{% load account socialaccount %}
+
+{% block content %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                {% if process == "connect" %}
+                    <h1>{% with provider.name as provider %}Connect {{ provider }}{% endwith %}</h1>
+
+                    <p>{% with provider.name as provider %}You are about to connect a new third party account from
+                        {{ provider }}.{% endwith %}</p>
+                {% else %}
+                    <h1>{% with provider.name as provider %}Sign In Via {{ provider }}{% endwith %}</h1>
+
+                    <p>{% with provider.name as provider %}You are about to sign in using a third party account from
+                        {{ provider }}.{% endwith %}</p>
+                {% endif %}
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-success rounded" type="submit">Continue</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

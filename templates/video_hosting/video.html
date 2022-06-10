@@ -1,0 +1,35 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <section class="background-cover pb-5 pt-5 text-secondary" style="background-image:url('{{ video.image.url }}');background-size:cover;background-repeat: no-repeat;" data-pg-collapsed>
+        <div class="container pb-5 pt-5">
+            <div class="align-items-start row">
+                <div class="col-lg-3">
+                    <p class="h6 text-primary text-uppercase">{{ video.create_at }}</p>
+                    <h1 class="display-4 font-weight-bold mb-3 text-dark">{{ video.title }}</h1>
+                    <p class="font-weight-light lead mb-4">
+                        {{ video.description }}</p>
+                </div>
+                <div class="col-lg-7 pb-3 pt-3">
+                    <div class="p-3" style="position: relative;">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video
+                                    id="my-video"
+                                    class="video-js vjs-big-play-centered"
+                                    controls
+                                    preload="auto"
+                                    width="600"
+                                    height="350"
+                                    data-setup="{}"
+                                    muted
+                            >
+                                <source src="{% url 'stream' video.id %}" type="video/mp4"/>
+                                <source src="{% url 'stream' video.id %}" type="video/webm"/>
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

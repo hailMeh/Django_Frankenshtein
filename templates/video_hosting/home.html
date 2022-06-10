@@ -1,0 +1,25 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block content %}
+    <section class="background-cover  bg-dark pb-5 position-relative pt-5 text-secondary" style="background-image:url('{% static 'images/gojira.jpg' %}');background-size:cover;background-repeat: no-repeat;" data-pg-collapsed>
+<div class="container my-4">
+    <div class="mb-4 p-3">
+    <p class="h1 big text-white text-center py-2 pb-4">Клипы</p>
+        <div class="row">{% for video in video_list %}
+            <div class="col-md-3 py-2">
+                <a href="{% url 'video' video.id %}" class="mb-3 mb-md-0"><img src="{{ video.image.url }}" class="rounded" alt="..." width="100%" height="100%" style="object-fit: cover;"></a>
+            </div>
+            <div class="col-md-3">
+                <a href="{% url 'video' video.id %}" class="text-white text-decoration-none"><h3 class="font-weight-bold h4">{{ video.title }}</h3></a>
+                <h4 class="font-weight-bold h6 mb-3 small text-secondary text-white">{{ video.create_at }}</h4>
+
+                <p class="text-white">{{ video.description|slice:":100" }}</p>
+                <a href="{% url 'video' video.id %}" type="button" class="btn btn-outline-danger btn-sm text-white">Watch</a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+    </section>
+
+{% endblock content %}
