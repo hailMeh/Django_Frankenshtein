@@ -59,6 +59,18 @@
     </style>
 </head>
 </head>
+<div class="">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    </div>
 <body>
 {% get_categories as cats %}
 {% cache 20 sidebar %}
@@ -67,7 +79,7 @@
     <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
     <div class="container">
     <!-- Brand -->
-    <a class="navbar-brand waves-effect" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
+    <a class="navbar-brand waves-effect animated fadeIn wow slow" href="https://mdbootstrap.com/docs/jquery/" target="_blank">
         <strong class="blue-text">FRANKENSHTEIN</strong>
     </a>
     <!-- Collapse -->
@@ -124,7 +136,7 @@
 
     {% if user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link text-success" href="#">Hi {{ user.username }}</a>
+            <a class="nav-link text-success animated pulse wow slow infinite" href="#">Hi {{ user.username }}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-danger" href="{% url 'account_logout' %}">Logout</a>
@@ -135,14 +147,14 @@
         </li>
     {% else %}
         <li class="nav-item">
-            <a class="nav-link text-danger" href="{% url 'account_login' %}">Log1in</a>
+            <a class="nav-link text-danger" href="{% url 'account_login' %}">Sign In</a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link text-danger" href="{% url 'account_signup' %}">Sign Up</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-danger" href="{% url 'account_reset_password' %}">Forget
+            <a class="nav-link text-danger" href="{% url 'account_reset_password' %}">Forgot
                 your
                 password?</a>
         </li>
@@ -195,10 +207,6 @@
                     </a>
                 </div>
                 <p class="mb-0">&copy; 2021 - 2022. All Rights Reserved - Mikhail Reztsov</p>
-            </div>
-            <div class="col-md-auto pb-2 pt-2">
-                <a href="https://github.com/hailMeh" class="text-secondary">Github</a> |
-                <a href="#" class="text-secondary">Contacts</a>
             </div>
             {% if user.is_authenticated %}
                 {% contact_form %}

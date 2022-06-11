@@ -3,11 +3,11 @@
     <h2 class="font-weight-bold h5 mb-4 text-primary text-uppercase">Give us your callback!</h2>
     <p class="mb-3 font-weight-bold h6 text-dark">Here you can add a message for us!</p>
     <form action="{% url 'contact' %}" method="post" name="message">
-        <div class="align-items-center bg-dark bg-opacity-10 p-3 small text-dark border input-group overflow-hidden p-1 rounded">
+        <div class="animated fadeIn wow slow align-items-center bg-white bg-opacity-25 p-3 small text-dark border input-group overflow-hidden p-1 rounded">
             {% csrf_token %}
             {{ contact_form|crispy }}
             <div class="input-group-append ml-1">
-                <button class="btn btn-primary pb-2 pl-4 pr-4 pt-2 rounded-pill m-2"
+                <button class="btn btn-primary p-2 rounded-lg m-2"
                         id="button-addon2" type="submit">
                     <svg viewBox="0 0 24 24" fill="currentColor" class="d-inline-block" height="16"
                          width="16">
