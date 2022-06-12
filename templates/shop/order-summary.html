@@ -1,0 +1,90 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <main>
+        <div class="container">
+
+            <div class="table-responsive text-nowrap">
+                <h2>Order Summary</h2>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Item title</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total Item Price</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for order_item in object.items.all %} <!-- object.items.all так как manytomany field-->
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <!-- автоматическое прибавление номера при цикле зависящихъ от кол-ва обьектов-->
+                            <td>{{ order_item.item.title }}</td>
+                            <!-- модель Order в ней item через manytomany и в ней title -->
+                            <td>{% if order_item.item.discount_price %}  <!-- если есть скидка-->
+                                <p>${{ order_item.item.discount_price }}</p> <!-- вывод цены со скидкой-->
+                                <del>${{ order_item.item.price }}</del> <!-- основная цена зачеркнута-->
+                            {% else %}
+                                ${{ order_item.item.price }} <!-- вывод цены без скидки-->
+                            {% endif %}
+                            </td>
+                            <td><a href="{% url 'remove_single_item_from_cart' order_item.item.slug %}"><i
+                                    class="fas fa-minus mr-2"></i></a>
+                                {{ order_item.quantity }}
+                                <a href="{% url 'add_to_cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></a>
+                            </td> <!-- модель Order в ней самой уже quantity-->
+                            <td>{% if order_item.item.discount_price %}  <!-- если есть скидка-->
+                                $
+                                {{ order_item.get_total_discount_item_price|truncatechars:6 }}<!-- вывод метода из модели с подсчетом суммы обьектов со скидкой-->
+                                <span class="badge badge-primary py-1 animated pulse infinite slow ml-2"> ${{ order_item.get_amount_saved|truncatechars:6 }}Скидка</span>
+                                <!-- подсчет экономии со скидкой через метод-->
+                            {% else %}
+                                $
+                                {{ order_item.get_total_item_price|truncatechars:6  }}<!-- вывод метода из модели с подсчетом суммы обьектов без скидки-->
+                            {% endif %}
+                            <a style='color: red;' href="{% url 'remove_from_cart' order_item.item.slug %}">
+                                <i class="fas fa-trash float-right"></i>
+                            </a>
+</td>
+                        </tr>
+                    {% empty %}  <!-- если корзина пуста -->
+                        <tr>
+                            <td colspan='5'>Your cart is empty</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <a class='btn btn-primary float-right' href='{% url 'ItemList' %}'>Continue shopping</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    {% if object.coupon %}
+                        <tr>
+                            <td colspan="4"><b>Coupon</b></td>
+                            <td><b>-${{ object.coupon.amount }}</b></td>
+                        </tr>
+                    {% endif %}
+                    {% if object.get_total %} <!-- если в методе get_total есть данные по заказу юзера отобрази-->
+                        <tr> <!-- строка для колонок-->
+                            <td colspan="4"><b>Order Total</b></td> <!-- данные в таблице будут выведены в 4 колонке-->
+                            <td><b>${{ object.get_total|truncatechars:6 }}</b></td>
+                            <!-- вывод из метода в модели суммы-->
+                        </tr>
+                        <tr> <!-- строка для колонок-->
+                            <td colspan="5"> <!-- данные в таблице будут выведены в 5 колонке -->
+                                <a class='btn btn-warning float-right ml-2' href='shop/checkout/'>Proceed to
+                                    checkout</a>
+                                <a class='btn btn-primary float-right' href='{% url 'ItemList' %}'>Continue shopping</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+    </main>
+
+{% endblock content %}
