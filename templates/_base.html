@@ -27,6 +27,8 @@
     <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+    {% block extra_head %}
+{% endblock %}
     <meta name="author" content="">
     <title>{% block title %}{% endblock %}</title>
     <style type="text/css">
@@ -282,6 +284,8 @@
 
     app.mount('#app')
 </script>
-
+{% include "shop/scripts.html" %}
+    {% block extra_scripts %}
+    {% endblock extra_scripts %}
 
 </html>

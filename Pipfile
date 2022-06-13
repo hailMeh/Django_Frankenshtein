@@ -17,6 +17,10 @@ django-ckeditor = "*"
 asgiref = "*"
 pytz = "*"
 sqlparse = "*"
+django-countries = "*"
+stripe = "*"
+python-decouple = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

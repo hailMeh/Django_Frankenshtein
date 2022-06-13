@@ -2,6 +2,7 @@ from pathlib import Path
 from environs import Env
 import os
 
+
 env = Env()
 env.read_env()
 
@@ -41,13 +42,17 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.vk',
+    'django_countries',
+    "corsheaders",
+    'stripe',
 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -244,3 +249,15 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+STRIPE_PUBLIC_KEY='pk_test_51LAClpC009QMqJQk0PWUNuWWzdIPqZLwVU1nmoEn3HNkeaCwqGOs5QYthaW3oqiCVjfyBYZzTOmIVsSnNvasA3Uq00r0E2SpYJ'
+STRIPE_SECRET_KEY='sk_test_51LAClpC009QMqJQk4ymf3rNL9doXBIl5OhaRc6C527WPCILTGxiNvnk17hFNtFMTaIQJLmkUOLNo6BnkvFnEu4B800L111i6QL'
+
+
+CORS_ORIGIN_WHITELIST = (
+    'https://google.com',
+    'https://127.0.0.1',
+    'https://127.0.0.1:8000',
+    'http://127.0.0.1',
+    'http://127.0.0.1:8000'
+)
